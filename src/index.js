@@ -3,12 +3,17 @@ import ReactDOM from 'react-dom'
 import './index.css'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import './exercise'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import rootReducer from './modules'
+
+const store = createStore(rootReducer)
+console.log(store.getState())
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}> {/* 리액트 컴포넌트 어디에서든 store를 사용할 수 있음 */}
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById('root')
 )
 
