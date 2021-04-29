@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux'
 import counter from './counter'
-import todos from './todos'
+// import todos from './todos'
 
 // 루트 리듀서만들기
 const rootReducer = combineReducers({
-  counter,
-  todos
+  counter
 })
 
 export default rootReducer
