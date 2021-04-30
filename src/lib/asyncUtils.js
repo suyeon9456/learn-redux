@@ -1,3 +1,14 @@
+export const createPromiseThunk = (type, promiseCreator) => {
+  const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`]
+
+  const thunkCreator = param => async dispatch => {
+    dispatch({ type })
+    try {
+      const payload = await promiseCreator(param)
+    }
+  }
+}
+
 export const reducerUtils = {
   initial: (data = null) => ({
     loading: false,
