@@ -5,8 +5,20 @@ export const createPromiseThunk = (type, promiseCreator) => {
     dispatch({ type })
     try {
       const payload = await promiseCreator(param)
+      dispatch({
+        type: SUCCESS,
+        payload
+      })
+    } catch (e) {
+      dispatch({
+        type: ERROR,
+        payload: e,
+        error: true
+      })
     }
   }
+
+  return thunkCreator
 }
 
 export const reducerUtils = {
