@@ -10,15 +10,18 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 // import myLogger from './middlewares/myLogger'
 import logger from 'redux-logger'
 import ReduxThunk from 'redux-thunk'
+import { BrowserRouter } from 'react-router-dom'
 
 const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(ReduxThunk, logger)))
 // const store = createStore(rootReducer, composeWithDevTools())
 console.log(store.getState())
 
 ReactDOM.render(
-  <Provider store={store}> {/* 리액트 컴포넌트 어디에서든 store를 사용할 수 있음 */}
-    <App />
-  </Provider>,
+  <BrowserRouter>
+    <Provider store={store}> {/* 리액트 컴포넌트 어디에서든 store를 사용할 수 있음 */}
+      <App />
+    </Provider>
+  </BrowserRouter>,
   document.getElementById('root')
 )
 
