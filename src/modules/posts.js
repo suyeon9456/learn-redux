@@ -1,5 +1,5 @@
 import * as postsAPI from '../api/posts'
-import { createPromiseThunk, hanldleAsyncActions, reducerUtils } from '../lib/asyncUtils'
+import { createPromiseThunk, createPromiseThunkById, hanldleAsyncActions, hanldleAsyncActionsById, reducerUtils } from '../lib/asyncUtils'
 
 const GET_POSTS = 'GET_POSTS'
 const GET_POSTS_SUCCESS = 'GET_POSTS_SUCCESS'
@@ -14,24 +14,7 @@ const CLEAR_POST = 'CLEAR_POST'
 // thunk 호출함수
 export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts)
 
-export const getPost = id => async dispatch => {
-  dispatch({ type: GET_POST, meta: id })
-  try {
-    const payload = await postsAPI.getPostById(id)
-    dispatch({
-      type: GET_POST_SUCCESS,
-      payload,
-      meta: id
-    })
-  } catch (e) {
-    dispatch({
-      type: GET_POST_ERROR,
-      payload: e,
-      error: true,
-      meta: id
-    })
-  }
-}
+export const getPost = createPromiseThunkById(GET_POST, postsAPI.getPostById)
 export const clearPost = () => ({ type: CLEAR_POST })
 
 const initialState = {
@@ -40,42 +23,8 @@ const initialState = {
 }
 
 const getPostsReducer = hanldleAsyncActions(GET_POSTS, 'posts', true)
-const getPostReducer = (state, action) => {
-  const id = action.meta
-  switch (action.type) {
-    case GET_POST:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          [id]: reducerUtils.loading(state.post[id] && state.post[id].data)
-        }
-      }
-    case GET_POST_SUCCESS:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          [id]: reducerUtils.success(action.payload)
-        }
-      }
-    case GET_POST_ERROR:
-      return {
-        ...state,
-        post: {
-          ...state.post,
-          [id]: reducerUtils.error(action.payload)
-        }
-      }
-    case CLEAR_POST:
-      return {
-        ...state,
-        post: reducerUtils.initial()
-      }
-    default:
-      return state
-  }
-}
+const getPostReducer = hanldleAsyncActionsById(GET_POST, 'post', true)
+
 export default function posts (state = initialState, action) {
   switch (action.type) {
     case GET_POSTS:
