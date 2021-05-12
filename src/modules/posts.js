@@ -16,6 +16,9 @@ export const getPosts = createPromiseThunk(GET_POSTS, postsAPI.getPosts)
 
 export const getPost = createPromiseThunkById(GET_POST, postsAPI.getPostById)
 export const clearPost = () => ({ type: CLEAR_POST })
+export const goHome = () => (dispatch, getState, { history }) => {
+  history.push('/')
+}
 
 const initialState = {
   posts: reducerUtils.initial(),
