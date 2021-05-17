@@ -1,4 +1,5 @@
 import { delay, put, takeEvery, takeLatest } from 'redux-saga/effects'
+// import produce from 'immer'
 
 const INCREASE = 'INCREASE'
 const DECREASE = 'DECREASE'
@@ -32,8 +33,14 @@ export function * counterSaga () {
 const initialState = 0
 
 export default function counter (state = initialState, action) {
+  console.log(produce)
   switch (action.type) {
     case INCREASE:
+      // return produce(state, draft => {
+      //   console.log(draft)
+      //   console.log(state)
+      //   draft += 1
+      // })
       return state + 1
     case DECREASE:
       return state - 1
