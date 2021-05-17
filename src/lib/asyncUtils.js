@@ -1,4 +1,5 @@
 import { call, put } from 'redux-saga/effects'
+import produce from 'immer'
 
 export const createPromiseSaga = (type, promiseCreator) => {
   const [SUCCESS, ERROR] = [`${type}_SUCCESS`, `${type}_ERROR`]
@@ -101,10 +102,13 @@ export const hanldleAsyncActions = (type, key, keepData) => {
           [key]: reducerUtils.loading(keepData ? state[key].data : null)
         }
       case SUCCESS:
-        return {
-          ...state,
-          [key]: reducerUtils.success(action.payload)
-        }
+        return produce(state, draft => {
+          draft[key] = reducerUtils.success(action.payload)
+        })
+        // return {
+        //   ...state,
+        //   [key]: reducerUtils.success(action.payload)
+        // }
       case ERROR:
         return {
           ...state,

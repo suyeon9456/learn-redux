@@ -33,7 +33,7 @@ export function * counterSaga () {
 const initialState = 0
 
 export default function counter (state = initialState, action) {
-  console.log(produce)
+  // console.log(produce)
   switch (action.type) {
     case INCREASE:
       // return produce(state, draft => {
